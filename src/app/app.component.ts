@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Model } from "survey-core";
+import { SurveyCreatorModel } from "survey-creator-core";
+
 
 const surveyJson = {
   elements: [{
@@ -13,6 +15,10 @@ const surveyJson = {
   }]
 };
 
+const creatorOptions = {
+  showLogicTab: true,
+  isAutoSave: true
+};
 
 @Component({
   selector: 'app-root',
@@ -22,6 +28,8 @@ const surveyJson = {
 export class AppComponent implements OnInit {
 
   surveyModel: Model = new Model();
+  surveyCreatorModel: SurveyCreatorModel = new SurveyCreatorModel(creatorOptions);
+
   alertResults (sender:any) {
     const results = JSON.stringify(sender.data);
     alert(results);
@@ -32,6 +40,8 @@ export class AppComponent implements OnInit {
     // )
   }
   ngOnInit() {
+    const creator = new SurveyCreatorModel(creatorOptions);
+    this.surveyCreatorModel = creator;
     const survey = new Model(surveyJson);
     this.surveyModel = survey;
     survey.onComplete.add(this.alertResults);
